@@ -1,0 +1,84 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    // Define versions in a single place
+    ext {
+        compile_sdk_version = 31
+        min_sdk_version = 21
+        target_sdk_version = 31
+
+        kotlin_version = '1.6.10'
+        agp_version = '7.0.2'
+        hilt_version = '2.38.1'
+        apollo_version = '3.0.0'
+
+        // local variables
+        def appcompat_version = '1.4.0'
+        def material_version = '1.4.0'
+        def constraint_layout_version = '2.1.2'
+        def espresso_version = '3.4.0'
+        def junit_version = '4.12'
+        def androidx_junit_version = '1.1.2'
+        def mockito_version = '2.23.0'
+        def nav_version = "2.3.5"
+        def coroutines_android_version = '1.3.2'
+        def truth_version = '1.1.3'
+
+        libraries = [
+                // Android UI and appcompat
+                "androidx.appcompat:appcompat:$appcompat_version",
+                "com.google.android.material:material:$material_version",
+                "androidx.constraintlayout:constraintlayout:$constraint_layout_version",
+
+                // Navigation
+                "androidx.navigation:navigation-fragment-ktx:$nav_version",
+                "androidx.navigation:navigation-ui-ktx:$nav_version",
+
+                // Dependency injection
+                "com.google.dagger:hilt-android:$hilt_version",
+
+                // Network
+                "com.apollographql.apollo3:apollo-runtime:$apollo_version",
+
+                // Coroutines
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version",
+                "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version",
+        ]
+
+        librariesKapt = [
+                "com.google.dagger:hilt-compiler:$hilt_version",
+        ]
+
+        testLibraries = [
+                "junit:junit:$junit_version",
+                "org.mockito:mockito-core:$mockito_version",
+                "com.google.truth:truth:$truth_version",
+                // Coroutines testing
+                "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_android_version",
+        ]
+
+        androidTestLibraries = [
+                // JUnit
+                "androidx.test.ext:junit:$androidx_junit_version",
+                // Espresso
+                "androidx.test.espresso:espresso-core:$espresso_version",
+        ]
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$agp_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

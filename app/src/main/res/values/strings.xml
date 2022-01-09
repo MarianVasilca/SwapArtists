@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SwapArtists</string>
+    <string name="title_artists">Artists</string>
+    <string name="title_favorites">Favorites</string>
+</resources>
