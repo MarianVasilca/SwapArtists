@@ -1,4 +1,4 @@
-package app.swapartists.util
+package app.swapartists.utilities
 
 import android.util.Log
 import androidx.annotation.MainThread

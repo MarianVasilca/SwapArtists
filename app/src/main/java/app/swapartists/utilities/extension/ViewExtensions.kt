@@ -1,4 +1,4 @@
-package app.swapartists.util.extension
+package app.swapartists.utilities.extension
 
 import android.view.View
 
