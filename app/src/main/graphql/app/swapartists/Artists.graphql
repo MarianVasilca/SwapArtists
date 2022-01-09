@@ -1,0 +1,11 @@
+query Artists {
+    search {
+        artists(query: "Bastille", first: 20, after: null) {
+            nodes {
+                id
+                name
+                disambiguation
+            }
+        }
+    }
+}
