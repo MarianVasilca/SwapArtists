@@ -27,6 +27,7 @@ buildscript {
         def nav_version = "2.3.5"
         def coroutines_android_version = '1.3.2'
         def truth_version = '1.1.3'
+        def logging_interceptor_version = "4.9.3"
 
         libraries = [
                 // Android UI and appcompat
@@ -43,6 +44,7 @@ buildscript {
 
                 // Network
                 "com.apollographql.apollo3:apollo-runtime:$apollo_version",
+                "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version",
 
                 // Coroutines
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version",
