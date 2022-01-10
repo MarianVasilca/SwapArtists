@@ -8,13 +8,34 @@
     <fragment
         android:id="@+id/navigation_artists"
         android:name="app.swapartists.ui.artists.ArtistsFragment"
-        android:label="@string/title_artists"
-        tools:layout="@layout/fragment_artists" />
+        android:label="@string/artists_title"
+        tools:layout="@layout/fragment_artists">
+        <action
+            android:id="@+id/action_artists_to_artistDetails"
+            app:destination="@+id/artist_detail"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorites"
         android:name="app.swapartists.ui.favorites.FavoritesFragment"
-        android:label="@string/title_favorites"
+        android:label="@string/favorites_title"
         tools:layout="@layout/fragment_favorites" />
+
+    <fragment
+        android:id="@+id/artist_detail"
+        android:name="app.swapartists.ui.artist_detail.ArtistDetailFragment"
+        android:label="@string/artist_detail_title"
+        tools:layout="@layout/fragment_artist_detail">
+
+        <argument
+            android:name="artistID"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
 
 </navigation>

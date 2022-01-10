@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">SwapArtists</string>
     <string name="retry_request">Retry</string>
-    <string name="title_artists">Artists</string>
-    <string name="title_favorites">Favorites</string>
 
     <!--Artists Screen-->
-    <string name="title_search">Search…</string>
+    <string name="artists_title">Artists</string>
+    <string name="artists_search_title">Search…</string>
     <string name="artists_search_hint">Search by name</string>
+
+    <!--Artist Detail Screen-->
+    <string name="artist_detail_title">Artist Detail</string>
+
+    <!--Favorites Screen-->
+    <string name="favorites_title">Favorites</string>
 
     <!--Errors-->
     <string name="error_check_network_connection">A network error occurred. Check the state of

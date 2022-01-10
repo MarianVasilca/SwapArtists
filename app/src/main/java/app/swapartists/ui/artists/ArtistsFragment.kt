@@ -9,8 +9,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import app.swapartists.R
+import app.swapartists.data.model.ArtistNode
 import app.swapartists.databinding.FragmentArtistsBinding
 import app.swapartists.utilities.extension.visibleIf
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +33,7 @@ class ArtistsFragment : Fragment() {
 
     private val viewModel: ArtistsViewModel by viewModels()
 
-    private val pagedAdapter by lazy { ArtistPagingAdapter() }
+    private val pagedAdapter by lazy { ArtistPagingAdapter(::onItemClick) }
     private val footerAdapter: NetworkStateAdapter by lazy {
         NetworkStateAdapter { pagedAdapter.retry() }
     }
@@ -106,6 +108,11 @@ class ArtistsFragment : Fragment() {
                 pagedAdapter.submitData(it)
             }
         }
+    }
+
+    private fun onItemClick(item: ArtistNode) {
+        val action = ArtistsFragmentDirections.actionArtistsToArtistDetails(item.id)
+        findNavController().navigate(action)
     }
 
     private fun setupSearchViewTextListener(searchView: SearchView) {
