@@ -1,7 +1,7 @@
 package app.swapartists.di
 
-import app.swapartists.data.repository.ArtistsRepository
-import app.swapartists.data.repository.ArtistsRepositoryImpl
+import app.swapartists.data.repository.ArtistRepository
+import app.swapartists.data.repository.ArtistRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +13,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindArtistsRepository(
-        artistsRepository: ArtistsRepositoryImpl
-    ): ArtistsRepository
+        artistsRepository: ArtistRepositoryImpl
+    ): ArtistRepository
 }

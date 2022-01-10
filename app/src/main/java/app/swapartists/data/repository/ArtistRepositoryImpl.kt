@@ -3,16 +3,20 @@ package app.swapartists.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import app.swapartists.ArtistQuery
+import app.swapartists.data.db.FavoriteArtistDao
 import app.swapartists.data.model.ArtistDetails
+import app.swapartists.data.model.FavoriteArtist
 import app.swapartists.data.model.GetArtistsError
 import app.swapartists.data.paging.ArtistPagingSource
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloException
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ArtistsRepositoryImpl @Inject constructor(
-    private val apiClient: ApolloClient
-) : ArtistsRepository {
+class ArtistRepositoryImpl @Inject constructor(
+    private val apiClient: ApolloClient,
+    private val favoriteArtistDao: FavoriteArtistDao
+) : ArtistRepository {
 
     override fun getArtistsPaged(
         query: String,
@@ -41,4 +45,9 @@ class ArtistsRepositoryImpl @Inject constructor(
             throw GetArtistsError(errorMessage, e)
         }
     }
+
+    override fun getItems(): Flow<List<FavoriteArtist>> = favoriteArtistDao.getItems()
+    override suspend fun getByID(id: String): FavoriteArtist? = favoriteArtistDao.getByID(id)
+    override suspend fun insert(item: FavoriteArtist) = favoriteArtistDao.insert(item)
+    override suspend fun deleteByID(ids: Collection<String>) = favoriteArtistDao.deleteByID(ids)
 }

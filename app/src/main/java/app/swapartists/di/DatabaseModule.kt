@@ -2,6 +2,7 @@ package app.swapartists.di
 
 import android.content.Context
 import app.swapartists.data.db.AppDatabase
+import app.swapartists.data.db.FavoriteArtistDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +19,9 @@ object DatabaseModule {
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return AppDatabase.getInstance(context)
     }
+
+    @Singleton
+    @Provides
+    fun provideFavoriteArtistDao(db: AppDatabase): FavoriteArtistDao = db.favoriteArtistDao()
 
 }

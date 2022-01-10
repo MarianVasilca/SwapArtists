@@ -8,7 +8,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import app.swapartists.data.repository.ArtistsRepository
+import app.swapartists.data.repository.ArtistRepository
 import app.swapartists.domain.GetErrorFromLoadStateUseCase
 import app.swapartists.utilities.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class ArtistsViewModel @Inject constructor(
-    private val repository: ArtistsRepository,
+    private val repository: ArtistRepository,
     private val errorFromLoadStateUseCase: GetErrorFromLoadStateUseCase
 ) : ViewModel() {
 

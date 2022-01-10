@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.swapartists.data.model.ArtistDetails
-import app.swapartists.data.repository.ArtistsRepository
+import app.swapartists.data.repository.ArtistRepository
 import app.swapartists.utilities.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArtistDetailViewModel @Inject constructor(
-    private val artistsRepository: ArtistsRepository
+    private val artistRepository: ArtistRepository
 ) : ViewModel() {
 
     private val artistID = MutableLiveData<String>()
@@ -35,7 +35,7 @@ class ArtistDetailViewModel @Inject constructor(
 
     private fun refreshData(artistID: String) {
         launchDataLoad {
-            artist.value = artistsRepository.getArtist(artistID)
+            artist.value = artistRepository.getArtist(artistID)
         }
     }
 
