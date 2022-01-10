@@ -1,14 +1,16 @@
 package app.swapartists.ui.artists
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
+import app.swapartists.R
 import app.swapartists.databinding.FragmentArtistsBinding
 import app.swapartists.utilities.extension.visibleIf
 import com.google.android.material.snackbar.Snackbar
@@ -52,12 +54,29 @@ class ArtistsFragment : Fragment() {
         setupSubscribers()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.artists_menu, menu)
+
+        // Associate searchable configuration with the SearchView
+        val searchManager = requireActivity()
+            .getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+
+        searchView.apply {
+            setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+            setupSearchViewTextListener(this)
+        }
+
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         optionalBinding = null
     }
 
     private fun setupUI() {
+        setHasOptionsMenu(true)
         binding.rvArtists.adapter = concatAdapter
     }
 
@@ -87,6 +106,16 @@ class ArtistsFragment : Fragment() {
                 pagedAdapter.submitData(it)
             }
         }
+    }
+
+    private fun setupSearchViewTextListener(searchView: SearchView) {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean = false
+            override fun onQueryTextChange(text: String?): Boolean {
+                viewModel.onQueryTextChanged(text)
+                return true
+            }
+        })
     }
 
     private fun setIsLoadingVisibility(isLoading: Boolean) {

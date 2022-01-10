@@ -4,6 +4,10 @@
     <string name="title_artists">Artists</string>
     <string name="title_favorites">Favorites</string>
 
+    <!--Artists Screen-->
+    <string name="title_search">Search…</string>
+    <string name="artists_search_hint">Search by name</string>
+
     <!--Errors-->
     <string name="error_check_network_connection">A network error occurred. Check the state of
         the network for your device and try again</string>

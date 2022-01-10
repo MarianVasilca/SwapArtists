@@ -16,6 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @FlowPreview
@@ -48,6 +49,23 @@ class ArtistsViewModel @Inject constructor(
     fun onLoadStatesUpdated(loadStates: CombinedLoadStates) {
         setRefreshStatus(loadStates.refresh)
         setRefreshError(loadStates.refresh)
+    }
+
+    fun onQueryTextChanged(text: String?) {
+        searchQuery.value = text
+        checkEmptySearchText()
+    }
+
+    private fun checkEmptySearchText() {
+        if (searchQuery.value.isNullOrBlank()) {
+            clearArtists()
+        }
+    }
+
+    private fun clearArtists() {
+        viewModelScope.launch {
+            clearListCh.send(Unit)
+        }
     }
 
     private fun setRefreshStatus(state: LoadState) {
