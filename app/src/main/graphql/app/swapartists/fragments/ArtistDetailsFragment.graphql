@@ -1,0 +1,21 @@
+fragment ArtistDetailsFragment on Artist {
+    id
+    name
+    disambiguation
+    releases {
+        nodes {
+            id
+            title
+            date
+        }
+    }
+    fanArt {
+        thumbnails {
+            url
+        }
+    }
+    rating {
+        value
+        voteCount
+    }
+}

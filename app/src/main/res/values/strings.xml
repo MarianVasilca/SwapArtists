@@ -9,6 +9,8 @@
 
     <!--Artist Detail Screen-->
     <string name="artist_detail_title">Artist Detail</string>
+    <string name="artist_detail_name_unknown">Unknown name</string>
+    <string name="artist_detail_rating_unknown">Unknown rating</string>
 
     <!--Favorites Screen-->
     <string name="favorites_title">Favorites</string>

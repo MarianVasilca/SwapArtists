@@ -1,5 +1,10 @@
 package app.swapartists.data.model
 
-import app.swapartists.ArtistsQuery
+import app.swapartists.fragment.ArtistDetailsFragment
+import app.swapartists.fragment.ArtistListItemFragment
 
-typealias ArtistNode = ArtistsQuery.Node
+typealias ArtistNode = ArtistListItemFragment
+
+typealias ArtistDetails = ArtistDetailsFragment
+
+typealias ArtistRelease = ArtistDetailsFragment.Node

@@ -1,0 +1,5 @@
+fragment ArtistListItemFragment on Artist {
+    id
+    name
+    disambiguation
+}

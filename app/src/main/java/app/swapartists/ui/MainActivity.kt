@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val controller = getNavController()
+        return controller.navigateUp()
+    }
+
     private fun setupBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

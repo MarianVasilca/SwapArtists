@@ -36,7 +36,8 @@ class ArtistPagingSource(
                 .dataAssertNoErrors
 
             val pageInfo = data.search?.artists?.pageInfo
-            val pageNodes = data.search?.artists?.nodes?.filterNotNull() ?: emptyList()
+            val pageNodes = data.search?.artists?.nodes?.filterNotNull()
+                ?.map { it.artistListItemFragment } ?: emptyList()
 
             LoadResult.Page(
                 data = pageNodes,
@@ -61,7 +62,7 @@ class ArtistPagingSource(
     }
 
     companion object {
-        const val DEFAULT_REFRESH_KEY = "Queen"
+        const val DEFAULT_REFRESH_KEY = ""
         const val DEFAULT_PAGE_SIZE = 15
         const val DEFAULT_PREFETCH_PAGES = 1
         const val DEFAULT_INITIAL_LOAD_SIZE = DEFAULT_PAGE_SIZE

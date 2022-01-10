@@ -30,6 +30,7 @@ buildscript {
         def logging_interceptor_version = "4.9.3"
         def room_version = "2.4.0"
         def paging_version = "3.1.0"
+        def coil_version = "1.4.0"
 
         libraries = [
                 // Android UI and appcompat
@@ -57,6 +58,9 @@ buildscript {
 
                 // Paging
                 "androidx.paging:paging-runtime:$paging_version",
+
+                // Image Loading
+                "io.coil-kt:coil:$coil_version",
         ]
 
         librariesKapt = [
