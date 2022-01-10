@@ -1,6 +1,10 @@
-query Artists {
+query Artists($query: String!, $pageSize: Int!, $after: String) {
     search {
-        artists(query: "Bastille", first: 20, after: null) {
+        artists(query: $query, first: $pageSize, after: $after) {
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
             nodes {
                 id
                 name
