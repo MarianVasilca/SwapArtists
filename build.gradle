@@ -8,7 +8,7 @@ buildscript {
     // Define versions in a single place
     ext {
         compile_sdk_version = 31
-        min_sdk_version = 21
+        min_sdk_version = 24
         target_sdk_version = 31
 
         kotlin_version = '1.6.10'
@@ -55,6 +55,7 @@ buildscript {
 
                 // Database
                 "androidx.room:room-runtime:$room_version",
+                "androidx.room:room-ktx:$room_version",
 
                 // Paging
                 "androidx.paging:paging-runtime:$paging_version",

@@ -18,6 +18,9 @@ interface FavoriteArtistDao {
     @Query("SELECT * FROM favorite_artists WHERE favorite_artist_id = :id")
     suspend fun getByID(id: String): FavoriteArtist?
 
+    @Query("SELECT * FROM favorite_artists WHERE favorite_artist_id = :id")
+    fun getFlowByID(id: String): Flow<FavoriteArtist?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: FavoriteArtist)
 

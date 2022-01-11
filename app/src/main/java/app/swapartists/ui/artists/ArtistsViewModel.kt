@@ -4,12 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.*
+import app.swapartists.data.model.ArtistModel
+import app.swapartists.data.model.ArtistNode
 import app.swapartists.data.repository.ArtistRepository
 import app.swapartists.domain.GetErrorFromLoadStateUseCase
+import app.swapartists.domain.ToggleFavoriteArtistUseCase
 import app.swapartists.utilities.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ArtistsViewModel @Inject constructor(
     private val repository: ArtistRepository,
-    private val errorFromLoadStateUseCase: GetErrorFromLoadStateUseCase
+    private val errorFromLoadStateUseCase: GetErrorFromLoadStateUseCase,
+    private val toggleFavoriteArtistUseCase: ToggleFavoriteArtistUseCase
 ) : ViewModel() {
 
     private val clearListCh = Channel<Unit>(Channel.CONFLATED)
@@ -38,13 +39,24 @@ class ArtistsViewModel @Inject constructor(
     val isLoading = MutableLiveData(false)
     val infoMessageResID = SingleLiveEvent<Int>()
 
-    val artists = flowOf(
+    private val artists = flowOf(
         clearListCh.receiveAsFlow().map { PagingData.empty() },
         debouncedSearchQuery
             .filterNotNull()
             .flatMapLatest { repository.getArtistsPaged(it) }
             .cachedIn(viewModelScope)
     ).flattenMerge(2)
+
+    private val savedArtists = repository.getItems()
+    private val savedArtistIDs = savedArtists.mapLatest { items -> items.map { it.id } }
+
+    val favoriteArtists = combineTransform(artists, savedArtistIDs) { artists, savedArtistIDs ->
+        val result = artists.map {
+            val isSaved = it.id in savedArtistIDs
+            ArtistModel(isSaved, it)
+        }
+        emit(result)
+    }
 
     fun onLoadStatesUpdated(loadStates: CombinedLoadStates) {
         setRefreshStatus(loadStates.refresh)
@@ -54,6 +66,12 @@ class ArtistsViewModel @Inject constructor(
     fun onQueryTextChanged(text: String?) {
         searchQuery.value = text
         checkEmptySearchText()
+    }
+
+    fun onFavoriteClick(item: ArtistNode) {
+        viewModelScope.launch {
+            toggleFavoriteArtistUseCase.toggleFavoriteArtist(item)
+        }
     }
 
     private fun checkEmptySearchText() {

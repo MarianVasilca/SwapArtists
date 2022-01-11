@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import app.swapartists.R
-import app.swapartists.data.model.ArtistNode
+import app.swapartists.data.model.ArtistModel
 import app.swapartists.databinding.FragmentArtistsBinding
 import app.swapartists.utilities.extension.visibleIf
 import com.google.android.material.snackbar.Snackbar
@@ -33,12 +33,17 @@ class ArtistsFragment : Fragment() {
 
     private val viewModel: ArtistsViewModel by viewModels()
 
-    private val pagedAdapter by lazy { ArtistPagingAdapter(::onItemClick) }
+    private val pagedAdapter by lazy { ArtistPagingAdapter(::onItemClick, ::onFavoriteClick) }
     private val footerAdapter: NetworkStateAdapter by lazy {
         NetworkStateAdapter { pagedAdapter.retry() }
     }
     private val concatAdapter: ConcatAdapter by lazy {
         pagedAdapter.withLoadStateFooter(footerAdapter)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -78,7 +83,6 @@ class ArtistsFragment : Fragment() {
     }
 
     private fun setupUI() {
-        setHasOptionsMenu(true)
         binding.rvArtists.adapter = concatAdapter
     }
 
@@ -104,15 +108,19 @@ class ArtistsFragment : Fragment() {
 
     private fun subscribeToItemsEvent() {
         lifecycleScope.launchWhenCreated {
-            viewModel.artists.collectLatest {
+            viewModel.favoriteArtists.collectLatest {
                 pagedAdapter.submitData(it)
             }
         }
     }
 
-    private fun onItemClick(item: ArtistNode) {
-        val action = ArtistsFragmentDirections.actionArtistsToArtistDetails(item.id)
+    private fun onItemClick(item: ArtistModel) {
+        val action = ArtistsFragmentDirections.actionArtistsToArtistDetails(item.artist.id)
         findNavController().navigate(action)
+    }
+
+    private fun onFavoriteClick(item: ArtistModel) {
+        viewModel.onFavoriteClick(item.artist)
     }
 
     private fun setupSearchViewTextListener(searchView: SearchView) {

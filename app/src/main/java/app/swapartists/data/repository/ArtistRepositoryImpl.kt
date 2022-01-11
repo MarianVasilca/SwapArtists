@@ -48,6 +48,7 @@ class ArtistRepositoryImpl @Inject constructor(
 
     override fun getItems(): Flow<List<FavoriteArtist>> = favoriteArtistDao.getItems()
     override suspend fun getByID(id: String): FavoriteArtist? = favoriteArtistDao.getByID(id)
+    override fun getFlowByID(id: String): Flow<FavoriteArtist?> = favoriteArtistDao.getFlowByID(id)
     override suspend fun insert(item: FavoriteArtist) = favoriteArtistDao.insert(item)
     override suspend fun deleteByID(ids: Collection<String>) = favoriteArtistDao.deleteByID(ids)
 }

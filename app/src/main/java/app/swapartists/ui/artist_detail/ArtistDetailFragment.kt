@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import app.swapartists.R
 import app.swapartists.data.model.ArtistDetails
@@ -15,7 +16,10 @@ import app.swapartists.utilities.extension.loadImage
 import app.swapartists.utilities.extension.visibleIf
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class ArtistDetailFragment : Fragment() {
 
@@ -52,12 +56,23 @@ class ArtistDetailFragment : Fragment() {
 
     private fun setupSubscribers() {
         subscribeToViewModelEvents()
+        subscribeToUiEvents()
     }
 
     private fun subscribeToViewModelEvents() {
         viewModel.isLoading.observe(viewLifecycleOwner, ::setIsLoadingVisibility)
         viewModel.isError.observe(viewLifecycleOwner) { onErrorResponse() }
         viewModel.artist.observe(viewLifecycleOwner) { setArtistUi(it) }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.favoriteArtist.collectLatest {
+                binding.cbFavorite.isChecked = it != null
+            }
+        }
+    }
+
+    private fun subscribeToUiEvents() {
+        binding.cbFavorite.setOnClickListener { viewModel.onFavoriteClick() }
     }
 
     private fun setupUI() {

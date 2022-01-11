@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import app.swapartists.data.model.FavoriteArtist
 import app.swapartists.databinding.FragmentFavoritesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -20,7 +21,7 @@ class FavoritesFragment : Fragment() {
     private val binding get() = optionalBinding!!
 
     private val viewModel: FavoritesViewModel by viewModels()
-    private val adapter by lazy { FavoriteArtistAdapter() }
+    private val adapter by lazy { FavoriteArtistAdapter(::onFavoriteClick) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,5 +65,9 @@ class FavoritesFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
+    }
+
+    private fun onFavoriteClick(item: FavoriteArtist) {
+        viewModel.onFavoriteClick(item)
     }
 }

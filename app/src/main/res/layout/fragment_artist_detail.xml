@@ -24,7 +24,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.35"
         app:srcCompat="@drawable/ic_music_placeholder" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -64,12 +64,26 @@
         android:maxLines="1"
         app:drawableStartCompat="@drawable/ic_round_star_rate_24"
         app:drawableTint="@color/yellow"
-        app:layout_constraintBottom_toBottomOf="@id/ivHeader"
+        app:layout_constraintBottom_toTopOf="@id/cbFavorite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivHeader"
         app:layout_constraintTop_toBottomOf="@+id/tvDisambiguation"
         app:layout_constraintVertical_chainStyle="spread"
         tools:text="4.5" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:button="@drawable/ic_favorite_circle"
+        android:checked="false"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeader"
+        app:layout_constraintStart_toEndOf="@+id/ivHeader"
+        app:layout_constraintTop_toBottomOf="@+id/tvRating" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReleases"

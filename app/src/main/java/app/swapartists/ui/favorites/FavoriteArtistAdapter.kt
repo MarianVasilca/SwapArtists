@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import app.swapartists.data.model.FavoriteArtist
 import app.swapartists.databinding.ItemFavoriteArtistBinding
 
-class FavoriteArtistAdapter : ListAdapter<FavoriteArtist, FavoriteArtistViewHolder>(
+class FavoriteArtistAdapter constructor(
+    private val favoriteClickCallback: ((FavoriteArtist) -> Unit)
+) : ListAdapter<FavoriteArtist, FavoriteArtistViewHolder>(
     ITEM_COMPARATOR
 ) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): FavoriteArtistViewHolder {
-        return FavoriteArtistViewHolder.create(parent)
+        return FavoriteArtistViewHolder.create(parent, favoriteClickCallback)
     }
 
     override fun onBindViewHolder(
@@ -45,10 +47,15 @@ class FavoriteArtistAdapter : ListAdapter<FavoriteArtist, FavoriteArtistViewHold
 }
 
 class FavoriteArtistViewHolder(
-    private val binding: ItemFavoriteArtistBinding
+    private val binding: ItemFavoriteArtistBinding,
+    favoriteClickCallback: (FavoriteArtist) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var item: FavoriteArtist
+
+    init {
+        binding.cbFavorite.setOnClickListener { favoriteClickCallback.invoke(item) }
+    }
 
     fun bind(item: FavoriteArtist) {
         this.item = item
@@ -58,11 +65,12 @@ class FavoriteArtistViewHolder(
 
     companion object {
         fun create(
-            parent: ViewGroup
+            parent: ViewGroup,
+            favoriteClickCallback: (FavoriteArtist) -> Unit
         ): FavoriteArtistViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val binding = ItemFavoriteArtistBinding.inflate(inflater, parent, false)
-            return FavoriteArtistViewHolder(binding)
+            return FavoriteArtistViewHolder(binding, favoriteClickCallback)
         }
     }
 
