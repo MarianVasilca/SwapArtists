@@ -15,8 +15,8 @@ interface FavoriteArtistDao {
     @Query("SELECT * FROM favorite_artists ORDER BY favorite_artist_name")
     fun getItems(): Flow<List<FavoriteArtist>>
 
-    @Query("SELECT * FROM favorite_artists WHERE favorite_artist_id = :id")
-    suspend fun getByID(id: String): FavoriteArtist?
+    @Query("SELECT EXISTS(SELECT * FROM favorite_artists WHERE favorite_artist_id = :id)")
+    suspend fun existsByID(id: String): Boolean
 
     @Query("SELECT * FROM favorite_artists WHERE favorite_artist_id = :id")
     fun getFlowByID(id: String): Flow<FavoriteArtist?>

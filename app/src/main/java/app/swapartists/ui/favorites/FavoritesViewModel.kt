@@ -13,11 +13,11 @@ class FavoritesViewModel @Inject constructor(
     private val artistRepository: ArtistRepository
 ) : ViewModel() {
 
-    val items = artistRepository.getItems()
+    val items = artistRepository.getFavoriteArtists()
 
     fun onFavoriteClick(item: FavoriteArtist) {
         viewModelScope.launch {
-            artistRepository.deleteByID(listOf(item.id))
+            artistRepository.deleteFavoriteArtistByID(listOf(item.id))
         }
     }
 }

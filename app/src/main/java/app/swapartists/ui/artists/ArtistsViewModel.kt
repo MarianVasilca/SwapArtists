@@ -46,7 +46,7 @@ class ArtistsViewModel @Inject constructor(
             .cachedIn(viewModelScope)
     ).flattenMerge(2)
 
-    private val savedArtists = repository.getItems()
+    private val savedArtists = repository.getFavoriteArtists()
     private val savedArtistIDs = savedArtists.mapLatest { items -> items.map { it.id } }
 
     val favoriteArtists = combineTransform(artists, savedArtistIDs) { artists, savedArtistIDs ->

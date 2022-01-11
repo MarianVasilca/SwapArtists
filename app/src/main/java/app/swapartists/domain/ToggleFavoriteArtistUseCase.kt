@@ -23,11 +23,11 @@ class ToggleFavoriteArtistUseCase @Inject constructor(
     }
 
     private suspend fun toggleFavoriteArtist(item: FavoriteArtist) {
-        val existsInDb = artistRepository.getByID(item.id) != null
+        val existsInDb = artistRepository.existsFavoriteArtistByID(item.id)
         if (existsInDb) {
-            artistRepository.deleteByID(listOf(item.id))
+            artistRepository.deleteFavoriteArtistByID(listOf(item.id))
         } else {
-            artistRepository.insert(item)
+            artistRepository.insertFavoriteArtist(item)
         }
     }
 

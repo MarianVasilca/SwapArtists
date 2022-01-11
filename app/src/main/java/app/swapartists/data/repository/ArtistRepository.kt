@@ -16,9 +16,9 @@ interface ArtistRepository {
         id: String
     ): ArtistDetails
 
-    fun getItems(): Flow<List<FavoriteArtist>>
-    suspend fun getByID(id: String): FavoriteArtist?
+    fun getFavoriteArtists(): Flow<List<FavoriteArtist>>
+    suspend fun existsFavoriteArtistByID(id: String): Boolean
     fun getFlowByID(id: String): Flow<FavoriteArtist?>
-    suspend fun insert(item: FavoriteArtist)
-    suspend fun deleteByID(ids: Collection<String>)
+    suspend fun insertFavoriteArtist(item: FavoriteArtist)
+    suspend fun deleteFavoriteArtistByID(ids: Collection<String>)
 }
