@@ -1,9 +1,6 @@
 package app.swapartists.ui.artists
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.*
 import app.swapartists.data.model.ArtistModel
 import app.swapartists.data.model.ArtistNode
@@ -38,6 +35,8 @@ class ArtistsViewModel @Inject constructor(
 
     val isLoading = MutableLiveData(false)
     val infoMessageResID = SingleLiveEvent<Int>()
+    private val listSize = MutableLiveData(0)
+    val isListEmpty = listSize.map { it == 0 }
 
     private val artists = flowOf(
         clearListCh.receiveAsFlow().map { PagingData.empty() },
@@ -65,7 +64,6 @@ class ArtistsViewModel @Inject constructor(
 
     fun onQueryTextChanged(text: String?) {
         searchQuery.value = text
-        checkEmptySearchText()
     }
 
     fun onFavoriteClick(item: ArtistNode) {
@@ -74,16 +72,8 @@ class ArtistsViewModel @Inject constructor(
         }
     }
 
-    private fun checkEmptySearchText() {
-        if (searchQuery.value.isNullOrBlank()) {
-            clearArtists()
-        }
-    }
-
-    private fun clearArtists() {
-        viewModelScope.launch {
-            clearListCh.send(Unit)
-        }
+    fun setListCount(size: Int) {
+        listSize.value = size
     }
 
     private fun setRefreshStatus(state: LoadState) {

@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -93,9 +94,11 @@ class ArtistsFragment : Fragment() {
     private fun subscribeToViewModelEvents() {
         subscribeToItemsEvent()
         subscribeToLoadStateEvent()
+        subscribeToListSizeEvent()
 
         viewModel.isLoading.observe(viewLifecycleOwner, ::setIsLoadingVisibility)
         viewModel.infoMessageResID.observe(viewLifecycleOwner, ::showMessage)
+        viewModel.isListEmpty.observe(viewLifecycleOwner) { binding.tvEmptyList.visibleIf(it) }
     }
 
     private fun subscribeToLoadStateEvent() {
@@ -111,6 +114,16 @@ class ArtistsFragment : Fragment() {
             viewModel.favoriteArtists.collectLatest {
                 pagedAdapter.submitData(it)
             }
+        }
+    }
+
+    private fun subscribeToListSizeEvent() {
+        lifecycleScope.launchWhenCreated {
+            pagedAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collectLatest {
+                    viewModel.setListCount(pagedAdapter.snapshot().size)
+                }
         }
     }
 

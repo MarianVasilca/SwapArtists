@@ -6,6 +6,8 @@
     <string name="artists_title">Artists</string>
     <string name="artists_search_title">Search…</string>
     <string name="artists_search_hint">Search by name</string>
+    <string name="artists_search_empty_list">Use the search button from the top bar to find
+        new artists</string>
 
     <!--Artist Detail Screen-->
     <string name="artist_detail_title">Artist Detail</string>
